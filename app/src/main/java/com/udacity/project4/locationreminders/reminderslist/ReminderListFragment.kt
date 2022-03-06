@@ -60,11 +60,11 @@ class ReminderListFragment : BaseFragment() {
         findNavController().navigate(R.id.action_reminderListFragment_to_saveReminderFragment)
 
         //use the navigationCommand live data to navigate between the fragments
-        /*_viewModel.navigationCommand.postValue(
+        _viewModel.navigationCommand.postValue(
             NavigationCommand.To(
-                ReminderListFragmentDirections.toSaveReminder()
+                ReminderListFragmentDirections.actionReminderListFragmentToSaveReminderFragment()
             )
-        )*/
+        )
     }
 
     private fun setupRecyclerView() {

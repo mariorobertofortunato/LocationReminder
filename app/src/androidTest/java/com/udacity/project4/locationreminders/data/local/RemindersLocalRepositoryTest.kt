@@ -1,4 +1,4 @@
--package com.udacity.project4.locationreminders.data.local
+package com.udacity.project4.locationreminders.data.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
