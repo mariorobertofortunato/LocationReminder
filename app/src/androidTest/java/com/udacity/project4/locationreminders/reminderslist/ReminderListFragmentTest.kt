@@ -19,6 +19,7 @@ import com.udacity.project4.locationreminders.data.dto.ReminderDTO
 import com.udacity.project4.locationreminders.data.local.LocalDB
 import com.udacity.project4.locationreminders.data.local.RemindersLocalRepository
 import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
+import com.udacity.project4.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runBlockingTest
@@ -103,18 +104,15 @@ class ReminderListFragmentTest {
 
     @Test
     fun listReminder_displayInUi() {
+        wrapEspressoIdlingResource {
+            val reminder = ReminderDTO("testTitle", "testDesc", "testLocation", 30.00, 31.00, "1")
+            runBlocking {
+                repo.saveReminder(reminder)
+            }
+            launchFragmentInContainer<ReminderListFragment>(Bundle(), R.style.AppTheme)
 
-        val reminder = ReminderDTO("Ayse", "Aysegul","Gaziantep",37.05,37.34,"1")
-
-        runBlocking {
-            repo.saveReminder(reminder)
+            onView(withText(reminder.title)).check(ViewAssertions.matches(isDisplayed()))
+            onView(withText(reminder.description)).check(ViewAssertions.matches(isDisplayed()))
         }
-
-        launchFragmentInContainer<ReminderListFragment>(Bundle(), R.style.AppTheme)
-
-        onView(withText(reminder.title)).check(ViewAssertions.matches(isDisplayed()))
-        onView(withText(reminder.description)).check(ViewAssertions.matches(isDisplayed()))
-
     }
-
 }

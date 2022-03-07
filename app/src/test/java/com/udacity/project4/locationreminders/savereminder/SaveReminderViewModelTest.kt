@@ -9,6 +9,7 @@ import com.udacity.project4.locationreminders.data.dto.ReminderDTO
 import com.udacity.project4.locationreminders.data.dto.Result
 import com.udacity.project4.locationreminders.getOrAwaitValueTest
 import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
+import com.udacity.project4.utils.wrapEspressoIdlingResource
 import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -36,14 +37,12 @@ class SaveReminderViewModelTest {
     fun setup() {
         stopKoin()
         val remindersList = mutableListOf<ReminderDTO>(
-            ReminderDTO("Ayse", "Aysegul","Gaziantep",37.05,37.34),
-            ReminderDTO("AAAA", "AAAAAA","AAAAAAAAA",36.05,36.34),
-            ReminderDTO("BBBB", "BBBB","BBBBBBBBBB",35.05,35.34)
+            ReminderDTO("testTitle", "testDesc","testLocation",30.00,31.00),
+            ReminderDTO("qqqqq", "wwwww","eeeeee",31.00,32.00),
+            ReminderDTO("aaaaa", "sssss","dddd",32.00,33.00)
         )
-
         fakeDataSource = FakeDataSource(remindersList)
         viewModel = SaveReminderViewModel(ApplicationProvider.getApplicationContext(), fakeDataSource)
-
     }
 
     @Test
@@ -61,15 +60,12 @@ class SaveReminderViewModelTest {
 
     @Test
     fun saveReminder_dataSource() = mainCoroutineRule.runBlockingTest {
-
+        wrapEspressoIdlingResource {
         fakeDataSource.deleteAllReminders()
-
         val reminderData = ReminderDataItem("Ayse", "Aysegul","Gaziantep",37.05,37.34)
-
         viewModel.saveReminder(reminderData)
-
         val reminderFromDataSource = (fakeDataSource.getReminders() as Result.Success).data
-
         assertThat(reminderData.title, equalTo(reminderFromDataSource[0].title))
+    }
     }
 }

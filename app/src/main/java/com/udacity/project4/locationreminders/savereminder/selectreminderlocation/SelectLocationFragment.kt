@@ -1,13 +1,16 @@
 package com.udacity.project4.locationreminders.savereminder.selectreminderlocation
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.core.content.ContextCompat.*
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -20,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PointOfInterest
+import com.google.android.material.snackbar.Snackbar
 import com.udacity.project4.R
 import com.udacity.project4.base.BaseFragment
 import com.udacity.project4.base.NavigationCommand
@@ -172,6 +176,13 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                 if (requestCode == REQUEST_LOCATION_PERMISSION) {
                     if (grantResults.size > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                         enableLocation()
+                    } else {
+                        Snackbar.make(binding.layout, R.string.location_required_error, Snackbar.LENGTH_LONG
+                            ).setAction(R.string.settings) {
+                            startActivity(Intent(Settings.ACTION_SETTINGS))
+                        }
+                            .show()
+
                     }
                 }
             }

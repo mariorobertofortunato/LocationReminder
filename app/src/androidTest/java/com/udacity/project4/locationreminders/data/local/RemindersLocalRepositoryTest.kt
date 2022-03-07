@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.udacity.project4.locationreminders.data.dto.ReminderDTO
 import com.udacity.project4.locationreminders.data.dto.Result
+import com.udacity.project4.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
@@ -32,16 +33,17 @@ class RemindersLocalRepositoryTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private  val reminder = ReminderDTO("Ayse", "Aysegul","Gaziantep",37.05,37.34,"1")
+    private  val reminder = ReminderDTO("testTitle", "testDesc","testLocation",30.00,31.00,"1")
 
     @Before
     fun setup() {
+        wrapEspressoIdlingResource {
         db = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), RemindersDatabase::class.java)
             .allowMainThreadQueries()
             .build()
 
         repo = RemindersLocalRepository(db.reminderDao(), Dispatchers.Main)
-    }
+    }}
 
 
     @After
@@ -51,31 +53,32 @@ class RemindersLocalRepositoryTest {
 
     @Test
     fun saveReminder_retrievesReminder() = runBlocking {
-        val reminder = ReminderDTO("Ayse", "Aysegul","Gaziantep",37.05,37.34)
-        db.reminderDao().saveReminder(reminder)
+        wrapEspressoIdlingResource {
+            val reminder = ReminderDTO("testTitle", "testDesc", "testLocation", 30.00, 31.00)
+            db.reminderDao().saveReminder(reminder)
 
+            val result = repo.getReminder(reminder.id)
 
-        val result = repo.getReminder(reminder.id)
-
-
-        result as Result.Success
-        assertThat(result.data.title, `is`("Ayse"))
-        assertThat(result.data.description, `is`("Aysegul"))
-        assertThat(result.data.location, `is`("Gaziantep"))
-        assertThat(result.data.latitude, `is`(37.05))
-        assertThat(result.data.longitude, `is`(37.34))
-
+            result as Result.Success
+            assertThat(result.data.title, `is`("testTitle"))
+            assertThat(result.data.description, `is`("testDesc"))
+            assertThat(result.data.location, `is`("testLocation"))
+            assertThat(result.data.latitude, `is`(30.00))
+            assertThat(result.data.longitude, `is`(31.00))
+        }
     }
 
     @Test
     fun saveTask_retrievesNoTaskWrongId() = runBlocking {
-        val reminder = ReminderDTO("Ayse", "Aysegul","Gaziantep",37.05,37.34)
+        wrapEspressoIdlingResource {
+        val reminder = ReminderDTO("testTitle", "testDesc","testLocation",30.00,31.00)
         db.reminderDao().saveReminder(reminder)
 
         val result = repo.getReminder("id")
 
         result as Result.Error
         assertThat(result.message, `is`("Reminder not found!"))
+    }
     }
 
 

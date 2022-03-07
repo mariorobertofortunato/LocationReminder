@@ -81,7 +81,6 @@ class SaveReminderViewModel(val app: Application, val dataSource: ReminderDataSo
         return true
     }
 
-//TODO scrivere commento per questa funzione
     fun getReminderDataItem(): ReminderDataItem {
         val title = reminderTitle.value
         val description = reminderDescription.value
