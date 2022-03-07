@@ -95,7 +95,6 @@ class SaveReminderFragment : BaseFragment() {
 
             val reminder = ReminderDataItem(title, description,location, latitude, longitude)
             checkPermissionsAndStartGeofencing(reminder)
-
         }
 
 
@@ -225,7 +224,6 @@ class SaveReminderFragment : BaseFragment() {
         } else {
             _viewModel.showSnackBarInt.value = R.string.error_adding_geofence
         }
-
     }
 
     override fun onDestroy() {
@@ -250,7 +248,7 @@ class SaveReminderFragment : BaseFragment() {
         ) {
             Snackbar.make(
                 binding.layout,
-                R.string.permission_denied_explanation, Snackbar.LENGTH_INDEFINITE
+                R.string.permission_denied_explanation, Snackbar.LENGTH_SHORT
             )
                 .setAction(R.string.settings) {
                     startActivity(Intent().apply {

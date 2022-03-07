@@ -30,7 +30,6 @@ class AuthenticationActivity : AppCompatActivity() {
 
         observeAuthState()
 
-        //TODO: If the user was authenticated, send him to RemindersActivity
     }
 
     /**Check if user is logged and change the UI accordingly*/
@@ -39,7 +38,7 @@ class AuthenticationActivity : AppCompatActivity() {
         viewModel.authState.observe(this, Observer { authenticationState ->
             when (authenticationState) {
                 AuthViewModel.AuthState.AUTHENTICATED -> {
-                    /**If user logged in the button navs to RemindersActivity*/
+                    /**If user logged in, the button navs to RemindersActivity*/
                     logoutBtn.isVisible = true
                     logoutBtn.text = "LOGOUT"
                     text.text = "Welcome ${FirebaseAuth.getInstance().currentUser?.displayName}!"
@@ -91,7 +90,6 @@ class AuthenticationActivity : AppCompatActivity() {
             }
         }
     }
-
 
     companion object {
         const val  SIGN_IN_RESULT_CODE = 1001

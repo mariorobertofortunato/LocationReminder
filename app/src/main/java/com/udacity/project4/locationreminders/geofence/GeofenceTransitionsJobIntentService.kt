@@ -1,6 +1,5 @@
 package com.udacity.project4.locationreminders.geofence
 
-//import com.udacity.project4.locationreminders.data.local.RemindersLocalRepository
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.JobIntentService
@@ -9,7 +8,6 @@ import com.google.android.gms.location.GeofencingEvent
 import com.udacity.project4.locationreminders.data.ReminderDataSource
 import com.udacity.project4.locationreminders.data.dto.ReminderDTO
 import com.udacity.project4.locationreminders.data.dto.Result
-import com.udacity.project4.locationreminders.data.local.RemindersLocalRepository
 import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
 import com.udacity.project4.utils.sendNotification
 import kotlinx.coroutines.*
@@ -25,7 +23,6 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
     companion object {
         private const val JOB_ID = 573
 
-        //        TODO: check
         fun enqueueWork(context: Context, intent: Intent) {
             enqueueWork(
                 context,
@@ -36,7 +33,6 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
     }
 
     override fun onHandleWork(intent: Intent) {
-        //TODO: check
         val geoFenceEvent= GeofencingEvent.fromIntent(intent)
         when (geoFenceEvent.geofenceTransition) {
             Geofence.GEOFENCE_TRANSITION_ENTER -> {
@@ -45,7 +41,6 @@ class GeofenceTransitionsJobIntentService : JobIntentService(), CoroutineScope {
         }
     }
 
-    //TODO: check
     private fun sendNotification(triggeringGeofences: List<Geofence>) {
         triggeringGeofences.forEach {
 

@@ -1,6 +1,5 @@
 package com.udacity.project4.locationreminders.savereminder.selectreminderlocation
 
-
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.res.Resources
@@ -44,13 +43,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private var longitude = -122.084270
     val zoomLevel = 15f
 
-
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
-    private var currentLocation: Location? = null
-    lateinit var locationManager: LocationManager
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -76,16 +69,12 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         return binding.root
     }
 
-
     /**MAP SECTION*/
 
-            /**Sets the marker at homeLatLng and moves the camera +
-             * call the sub functions*/
+            /**When map is loaded call the sub functions*/
             @SuppressLint("MissingPermission")
             override fun onMapReady(p0: GoogleMap) {
                 map=p0
-                val homeLatLng = LatLng(latitude, longitude)
-                //map.addMarker(MarkerOptions().position(homeLatLng).title("Marker at Home"))
 
                 enableLocation()
                 setMapStyle(map)
@@ -171,7 +160,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                                 latLng.latitude, latLng.longitude)
                             //Marker
                             val marker = map.addMarker(MarkerOptions().position(latLng).snippet(snippet))
-                            //map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel))
                             marker.showInfoWindow()
                             setSelectedLocation(latLng, resources.getString(R.string.selected_location))
                         }

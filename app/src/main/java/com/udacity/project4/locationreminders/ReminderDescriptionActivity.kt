@@ -14,6 +14,8 @@ import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
  */
 class ReminderDescriptionActivity : AppCompatActivity() {
 
+    private var reminderId = ""
+
     companion object {
         private const val EXTRA_ReminderDataItem = "EXTRA_ReminderDataItem"
 
@@ -28,10 +30,12 @@ class ReminderDescriptionActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReminderDescriptionBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(
-            this,
-            R.layout.activity_reminder_description
-        )
-//        TODO: Add the implementation of the reminder details
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_reminder_description)
+
+        val reminderDataItem = intent.getSerializableExtra(EXTRA_ReminderDataItem) as ReminderDataItem
+        reminderId = reminderDataItem.id
+
+        binding.reminderDataItem = reminderDataItem
+        binding.lifecycleOwner = this
     }
 }
