@@ -37,13 +37,11 @@ class RemindersLocalRepositoryTest {
 
     @Before
     fun setup() {
-        wrapEspressoIdlingResource {
         db = Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), RemindersDatabase::class.java)
             .allowMainThreadQueries()
             .build()
-
         repo = RemindersLocalRepository(db.reminderDao(), Dispatchers.Main)
-    }}
+    }
 
 
     @After
@@ -53,7 +51,6 @@ class RemindersLocalRepositoryTest {
 
     @Test
     fun saveReminder_retrievesReminder() = runBlocking {
-        wrapEspressoIdlingResource {
             val reminder = ReminderDTO("testTitle", "testDesc", "testLocation", 30.00, 31.00)
             db.reminderDao().saveReminder(reminder)
 
@@ -65,12 +62,10 @@ class RemindersLocalRepositoryTest {
             assertThat(result.data.location, `is`("testLocation"))
             assertThat(result.data.latitude, `is`(30.00))
             assertThat(result.data.longitude, `is`(31.00))
-        }
     }
 
     @Test
     fun saveTask_retrievesNoTaskWrongId() = runBlocking {
-        wrapEspressoIdlingResource {
         val reminder = ReminderDTO("testTitle", "testDesc","testLocation",30.00,31.00)
         db.reminderDao().saveReminder(reminder)
 
@@ -79,7 +74,4 @@ class RemindersLocalRepositoryTest {
         result as Result.Error
         assertThat(result.message, `is`("Reminder not found!"))
     }
-    }
-
-
 }

@@ -53,7 +53,6 @@ class RemindersActivityTest :
      */
     @Before
     fun init() {
-        wrapEspressoIdlingResource {
             stopKoin()//stop the original app koin
             appContext = getApplicationContext()
             val myModule = module {
@@ -69,7 +68,6 @@ class RemindersActivityTest :
 
             //clear the data to start fresh
             runBlocking { repository.deleteAllReminders() }
-        }
     }
 
     @Before
@@ -138,7 +136,7 @@ class RemindersActivityTest :
 
     @Test
     fun saveToRemindersList_ErrMessage() = runBlocking {
-
+        
         // Initial state
         repository.saveReminder(ReminderDTO("testTitle", "testDesc", "testLocation", null, null))
         // Start up scenario

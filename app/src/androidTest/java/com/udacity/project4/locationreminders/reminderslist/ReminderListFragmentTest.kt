@@ -104,7 +104,6 @@ class ReminderListFragmentTest {
 
     @Test
     fun listReminder_displayInUi() {
-        wrapEspressoIdlingResource {
             val reminder = ReminderDTO("testTitle", "testDesc", "testLocation", 30.00, 31.00, "1")
             runBlocking {
                 repo.saveReminder(reminder)
@@ -113,6 +112,5 @@ class ReminderListFragmentTest {
 
             onView(withText(reminder.title)).check(ViewAssertions.matches(isDisplayed()))
             onView(withText(reminder.description)).check(ViewAssertions.matches(isDisplayed()))
-        }
     }
 }
